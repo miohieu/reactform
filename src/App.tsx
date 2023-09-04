@@ -1,8 +1,11 @@
+import Form from "./components/Form"
 
 function App() {
 
   return (
-      <div>React form</div>
+      <div>React form
+      <Form />
+      </div>
   )
 }
 
