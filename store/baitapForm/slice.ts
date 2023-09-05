@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { Student } from '../../src/type'
 
 interface initialState {
-    productList: [] | undefined,
-    productEdit: [],
+    studentList: [],
+    studentEdit: undefined | Student,
 }
 const initialState = {
-    productList: [],
-    productEdit: undefined,
+    studentList:[],
+    studentEdit: undefined,
 }
 
 const baiTapFormSlice = createSlice({
@@ -14,32 +15,32 @@ const baiTapFormSlice = createSlice({
     initialState,
 
     reducers: {
-        addProduct: (state, { payload }) => {
-            state.productList.push(payload)
+        addStudent: (state, { payload }) => {
+            state.studentList.push(payload)
         },
 
-        deleteProduct: (state, { payload }) => {
-            state.productList = state.productList.filter((prd) => prd.id !== payload)
+        deleteStudent: (state, { payload }) => {
+            state.studentList = state.studentList.filter((prd) => prd.id !== payload)
         },
 
-        editProduct: (state, { payload }) => {
-            state.productEdit = payload
+        editStudent: (state, { payload }) => {
+            state.studentEdit = payload
         },
 
-        updateProduct: (state, { payload }) => {
-            state.productList = state.productList.map((prd) => {
+        updateStudent: (state, { payload }) => {
+            state.studentList = state.studentList.map((prd) => {
                 if (prd.id === payload.id) {
                     return payload
                 }
                 return prd
             })
 
-            state.productEdit = undefined
+            state.studentEdit = undefined
         },
     },
     extraReducers: () => {},
 })
 
-export const {addProduct, editProduct, deleteProduct,updateProduct} = baiTapFormSlice.actions
+export const {addStudent, editStudent, deleteStudent,updateStudent} = baiTapFormSlice.actions
 export default baiTapFormSlice.reducer
 

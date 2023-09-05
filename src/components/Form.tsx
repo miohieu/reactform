@@ -1,15 +1,16 @@
-import  { useEffect, useState, } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import baiTapForm from '../../store/baitapForm/slice'
+import { useState } from 'react'
+import { addStudent, updateStudent } from '../../store/baitapForm/slice'
+import { useAppSelector, useAppDispatch } from '../hooks/hook'
+    
 
 
 const ProductForm = () => {
     const [formValue, setFormValue] = useState()
     const [formError, setFormError] = useState()
 
-    // const { productEdit } = useSelector((state) => state.baiTapForm)
+    const  studentEdit  = useAppSelector((state) => state.baitapForm.studentEdit)
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const validate = (element: HTMLInputElement) => {
         const { validity, minLength, title, value } = element
@@ -44,15 +45,6 @@ const ProductForm = () => {
         })
     }
 
-    // useEffect(() => {
-    //     // if (!productEdit) return
-    //     // setFormValue(productEdit)
-    //
-    //     if (productEdit) {
-    //         setFormValue(productEdit)
-    //     }
-    // }, [productEdit])
-
     return (
         <div>
 
@@ -68,11 +60,6 @@ const ProductForm = () => {
                     elements.forEach((ele) => {
                         const { name } = ele
                         errors[name] = validate(ele)
-                        // flushSync(
-                        //     setFormError(() => {
-                        //         return (errors[name] = validate(ele))
-                        //     })
-                        // )
                     })
                     setFormError(errors)
                     let isFlag = false
@@ -84,12 +71,12 @@ const ProductForm = () => {
                     }
                     if (isFlag) return
 
-                    // if (!productEdit) {
-                    //     // submit create prouct
-                    //     dispatch(baiTapForm.addProduct(formValue))
-                    // } else {
-                    //     dispatch(baiTapForm.updateProduct(formValue))
-                    // }
+                    if (!studentEdit) {
+                        // submit create prouct
+                        dispatch(addStudent(formValue))
+                    } else {
+                        dispatch(updateStudent(formValue))
+                    }
 
                     console.log('submit')
                 }}
@@ -110,13 +97,6 @@ const ProductForm = () => {
                             required
                             minLength={5}
                             maxLength={20}
-                            // pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-                            // onChange={(ev) => {
-                            //     setFormValue({
-                            //         ...formValue,
-                            //         id: ev.target.value,
-                            //     })
-                            // }}
                             onChange={handleFormValue()}
                         />
                         {formError?.id && <p className="text-danger">{formError?.id}</p>}
@@ -131,7 +111,7 @@ const ProductForm = () => {
                             value={formValue?.name || ''}
                             onChange={handleFormValue()}
                             required
-                            minLength={10}
+                            minLength={8}
                         />
                         {formError?.name && <p className="text-danger">{formError?.name}</p>}
                     </div>
@@ -159,11 +139,17 @@ const ProductForm = () => {
                             value={formValue?.email || ''}
                             onChange={handleFormValue()}
                         />
+
                     </div>
                 </div>
 
                 <div className="mt-3 d-flex gap-3">
+     {studentEdit ? (
                         <button className="btn btn-info">Update</button>
+                    ) : (
+                        <button className="btn btn-success">Create</button>
+                    )}
+
                 </div>
             </form>
         </div>
